@@ -1,1 +1,730 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="LINAH HOUSE online store"><title>LINAH HOUSE — Online Store</title><style>:root{--p:#e8c4ca;--c:#fbf7f1;--g:#b9955c;--i:#292424;--m:#756d6d;--l:#eadfd9}*{box-sizing:border-box}body{margin:0;background:var(--c);color:var(--i);font-family:Arial,sans-serif}.top{background:var(--i);color:#fff;text-align:center;padding:8px;font-size:13px}header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--l);z-index:5}.nav{max-width:1200px;margin:auto;padding:14px 18px;display:flex;gap:18px;align-items:center}.logo{font-weight:800;letter-spacing:2px}.logo span{color:var(--g)}.links{display:flex;gap:12px;overflow:auto;flex:1}.links button{background:none;border:0;white-space:nowrap}.cart,.primary{background:var(--i);color:#fff;border:0;border-radius:24px;padding:10px 16px}.hero{max-width:1200px;margin:20px auto;padding:55px 20px;text-align:center;border-radius:18px;background:linear-gradient(120deg,#f8e6e9,#fff7ef)}h1{font-size:clamp(35px,7vw,62px);margin:10px 0}.wrap{max-width:1200px;margin:auto;padding:0 18px 45px}.toolbar{display:flex;gap:10px;margin:20px 0;flex-wrap:wrap}.search{flex:1;min-width:220px;padding:13px;border:1px solid var(--l);border-radius:12px}.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:22px}.cat{background:#fff;border:1px solid var(--l);padding:15px;border-radius:13px;text-align:left}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:15px}.card{background:#fff;border:1px solid var(--l);border-radius:14px;overflow:hidden}.pic{height:140px;background:#f3e5e6;display:grid;place-items:center;font-size:48px}.info{padding:13px}.info small{color:var(--m)}.price{font-weight:800;margin:8px 0}.add{width:100%;padding:10px;border:0;border-radius:9px;background:var(--p)}.note{background:#fff8d9;border:1px solid #eadb8c;border-radius:12px;padding:13px;margin:18px 0}footer{background:var(--i);color:#fff;padding:35px 18px}.foot{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}footer a{color:#fff}.social{display:flex;gap:8px;flex-wrap:wrap}.social a{text-decoration:none;border:1px solid #777;border-radius:20px;padding:8px 10px}.drawer{position:fixed;right:0;top:0;height:100%;width:min(420px,94vw);background:#fff;z-index:20;padding:20px;box-shadow:-5px 0 25px #0003;transform:translateX(105%);transition:.25s;overflow:auto}.drawer.open{transform:none}.close{float:right;border:0;background:none;font-size:25px}.item{display:flex;justify-content:space-between;border-bottom:1px solid var(--l);padding:12px 0}.wa{display:block;background:#25d366;color:#fff;text-align:center;text-decoration:none;padding:12px;border-radius:10px;margin-top:10px}@media(max-width:650px){.links{display:none}.grid{grid-template-columns:repeat(2,1fr)}.pic{height:110px}}</style></head><body><div class="top">Welcome to LINAH HOUSE • Quality products, beautifully selected</div><header><div class="nav"><div class="logo">LINAH <span>HOUSE</span></div><div class="links" id="nav"></div><button class="cart" onclick="openCart()">🛒 Cart (<span id="count">0</span>)</button></div></header><section class="hero"><div>WELCOME TO LINAH HOUSE</div><h1>Everything you love,<br>beautifully selected.</h1><p>Beauty, fashion, hair, African food, kitchen, electronics, bags and everyday essentials.</p><button class="primary" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">SHOP NOW</button></section><main class="wrap" id="shop"><div class="toolbar"><input class="search" id="search" placeholder="Search products..." oninput="render()"><select id="sort" onchange="render()"><option value="">Sort products</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div><div class="categories" id="cats"></div><div class="note">💊 Vitamins & supplements are included as a category. Before selling any supplement in Italy/EU, add only products that meet the applicable rules and labeling requirements.</div><div class="grid" id="products"></div></main><footer><div class="foot"><div><h3>LINAH HOUSE</h3><p>Beauty, fashion, family and everyday essentials.</p></div><div><h3>Customer Service</h3><p><a href="mailto:YOUR_EMAIL@example.com">Email us</a></p><p>WhatsApp Business link can be added in the code.</p></div><div><h3>Follow us</h3><div class="social"><a href="YOUR_FACEBOOK_URL">Facebook</a><a href="YOUR_INSTAGRAM_URL">Instagram</a><a href="YOUR_TIKTOK_URL">TikTok</a><a href="YOUR_YOUTUBE_URL">YouTube</a></div></div></div></footer><aside class="drawer" id="drawer"><button class="close" onclick="closeCart()">×</button><h2>Your Cart</h2><div id="items"></div><h3>Total: €<span id="total">0.00</span></h3><button class="primary" style="width:100%" onclick="alert('Online payment checkout will be connected after your payment and shipping settings are ready.')">Proceed to order</button><a class="wa" id="wa" href="#" target="_blank">Order via WhatsApp Business</a></aside><script>const cats=['Beauty & Care','Hair & Wigs','Women','Men','Kids & Baby','African Food','Kitchen','Electronics','Bags','Vitamins & Supplements','Jewelry & Accessories','Shoes','Perfumes','Eyelashes'];const icons=['💄','💇','👗','👔','👶','🍲','🍳','📱','👜','💊','💍','👟','🌸','👁️'];const products=[['Beauty & Care','Face & Body Care','🧴',15],['Beauty & Care','Body Oil','✨',12],['Hair & Wigs','Human Hair Wig','💇',120],['Hair & Wigs','Braiding Hair','🪮',18],['Women','Women Dress','👗',35],['Women',"Women's Top",'👚',22],['Men',"Men's Shirt",'👔',28],['Kids & Baby','Kids Clothing','🧸',20],['Kids & Baby','Baby Shoes','👟',18],['African Food','Egusi','🌰',12],['African Food','Palm Oil','🫙',15],['African Food','African Food Bundle','📦',45],['Kitchen','Cooking Pot','🍲',35],['Kitchen','Kitchen Knife Set','🔪',20],['Kitchen','Blender','🥤',45],['Kitchen','Plates Set','🍽️',25],['Kitchen','Spoons Set','🥄',10],['Electronics','Phone Case','📱',10],['Electronics','Earphones','🎧',15],['Electronics','Phone Charger','🔌',12],['Electronics','Kids Tablet','📱',65],['Electronics','Smartphone','📱',150],['Bags',"Women's Handbag",'👜',35],['Bags','Crossbody Bag','👜',25],['Bags','Kids Backpack','🎒',22],['Vitamins & Supplements','Multivitamin Gummies','🍓',20],['Vitamins & Supplements','Vitamin D','☀️',12],['Jewelry & Accessories','Fashion Necklace','📿',15],['Jewelry & Accessories','Earrings','💎',12],['Shoes',"Women's Shoes",'👠',35],['Shoes',"Men's Sneakers",'👟',45],['Shoes','Kids Shoes','👟',25],['Perfumes',"Women's Perfume",'🌸',30],['Perfumes',"Men's Perfume",'🌿',30],['Eyelashes','Strip Eyelashes','👁️',8],['Eyelashes','Lash Set','👁️',15]];let active='All',cart=[];cats.forEach((c,i)=>document.getElementById('nav').innerHTML+=`<button onclick="active='${c}';render()">${icons[i]} ${c}</button>`);document.getElementById('cats').innerHTML='<button class="cat" onclick="active=\'All\';render()"><b>🛍️ All</b><br>Shop everything</button>'+cats.map((c,i)=>`<button class="cat" onclick="active='${c}';render()"><b>${icons[i]} ${c}</b><br>Shop now</button>`).join('');function render(){let q=document.getElementById('search').value.toLowerCase(),a=products.filter(p=>(active==='All'||p[0]===active)&&(!q||p[0].toLowerCase().includes(q)||p[1].toLowerCase().includes(q)));let s=document.getElementById('sort').value;if(s==='low')a.sort((x,y)=>x[3]-y[3]);if(s==='high')a.sort((x,y)=>y[3]-x[3]);document.getElementById('products').innerHTML=a.map((p,i)=>`<article class="card"><div class="pic">${p[2]}</div><div class="info"><small>${p[0]}</small><h3>${p[1]}</h3><div class="price">€${p[3].toFixed(2)}</div><button class="add" onclick="add(${products.indexOf(p)})">Add to cart</button></div></article>`).join('')||'<p>No products found.</p>'}function add(i){cart.push(products[i]);update();openCart()}function update(){document.getElementById('count').textContent=cart.length;document.getElementById('items').innerHTML=cart.length?cart.map((p,i)=>`<div class="item"><span>${p[2]} ${p[1]}</span><b>€${p[3].toFixed(2)} <button onclick="cart.splice(${i},1);update()">×</button></b></div>`).join(''):'<p>Your cart is empty.</p>';let t=cart.reduce((x,p)=>x+p[3],0);document.getElementById('total').textContent=t.toFixed(2);document.getElementById('wa').href='https://wa.me/YOUR_WHATSAPP_NUMBER?text='+encodeURIComponent('Hello LINAH HOUSE, I would like to order: '+cart.map(p=>p[1]).join(', ')+' | Total: €'+t.toFixed(2))}function openCart(){document.getElementById('drawer').classList.add('open')}function closeCart(){document.getElementById('drawer').classList.remove('open')}render();update();</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="LINAH HOUSE — Worldwide online shopping for beauty, fashion, hair, African food, kitchen, electronics and everyday essentials">
+<title>LINAH HOUSE — Worldwide Online Store</title>
+
+<style>
+:root{
+  --pink:#e8c4ca;
+  --cream:#fbf7f1;
+  --gold:#b9955c;
+  --dark:#292424;
+  --muted:#756d6d;
+  --line:#eadfd9;
+  --white:#fff;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--dark);
+  font-family:Arial,sans-serif;
+}
+
+.top{
+  background:var(--dark);
+  color:white;
+  text-align:center;
+  padding:10px;
+  font-size:13px;
+}
+
+header{
+  position:sticky;
+  top:0;
+  background:white;
+  border-bottom:1px solid var(--line);
+  z-index:10;
+}
+
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:15px 18px;
+  display:flex;
+  gap:18px;
+  align-items:center;
+}
+
+.logo{
+  font-weight:800;
+  letter-spacing:3px;
+  white-space:nowrap;
+  font-size:20px;
+}
+
+.logo span{
+  color:var(--gold);
+}
+
+.links{
+  display:flex;
+  gap:12px;
+  overflow:auto;
+  flex:1;
+}
+
+.links button{
+  background:none;
+  border:0;
+  white-space:nowrap;
+  cursor:pointer;
+  color:var(--dark);
+}
+
+.cart,
+.primary{
+  background:var(--dark);
+  color:white;
+  border:0;
+  border-radius:25px;
+  padding:11px 18px;
+  cursor:pointer;
+}
+
+.hero{
+  max-width:1200px;
+  margin:20px auto;
+  padding:70px 20px;
+  text-align:center;
+  border-radius:22px;
+  background:linear-gradient(120deg,#f8e6e9,#fff7ef);
+}
+
+.hero small{
+  letter-spacing:2px;
+}
+
+.hero h1{
+  font-size:clamp(38px,7vw,64px);
+  line-height:1.05;
+  margin:18px 0;
+}
+
+.hero p{
+  max-width:700px;
+  margin:0 auto 25px;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.6;
+}
+
+.wrap{
+  max-width:1200px;
+  margin:auto;
+  padding:0 18px 50px;
+}
+
+.toolbar{
+  display:flex;
+  gap:10px;
+  margin:20px 0;
+  flex-wrap:wrap;
+}
+
+.search{
+  flex:1;
+  min-width:220px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  font-size:15px;
+}
+
+select{
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:white;
+}
+
+.categories{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
+  margin-bottom:25px;
+}
+
+.cat{
+  background:white;
+  border:1px solid var(--line);
+  padding:16px;
+  border-radius:14px;
+  text-align:left;
+  cursor:pointer;
+}
+
+.cat:hover{
+  background:#fff5f6;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:15px;
+}
+
+.card{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:15px;
+  overflow:hidden;
+}
+
+.pic{
+  height:150px;
+  background:#f3e5e6;
+  display:grid;
+  place-items:center;
+  font-size:52px;
+}
+
+.info{
+  padding:14px;
+}
+
+.info small{
+  color:var(--muted);
+}
+
+.info h3{
+  min-height:42px;
+}
+
+.price{
+  font-weight:800;
+  font-size:18px;
+  margin:10px 0;
+}
+
+.add{
+  width:100%;
+  padding:11px;
+  border:0;
+  border-radius:9px;
+  background:var(--pink);
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.note{
+  background:#fff8d9;
+  border:1px solid #eadb8c;
+  border-radius:12px;
+  padding:14px;
+  margin:20px 0;
+  line-height:1.5;
+}
+
+footer{
+  background:var(--dark);
+  color:white;
+  padding:40px 18px;
+}
+
+.foot{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+}
+
+footer a{
+  color:white;
+}
+
+.social{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.social a{
+  text-decoration:none;
+  border:1px solid #777;
+  border-radius:20px;
+  padding:8px 12px;
+}
+
+.drawer{
+  position:fixed;
+  right:0;
+  top:0;
+  height:100%;
+  width:min(420px,94vw);
+  background:white;
+  z-index:30;
+  padding:22px;
+  box-shadow:-5px 0 25px #0003;
+  transform:translateX(105%);
+  transition:.25s;
+  overflow:auto;
+}
+
+.drawer.open{
+  transform:none;
+}
+
+.close{
+  float:right;
+  border:0;
+  background:none;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.item{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid var(--line);
+  padding:13px 0;
+}
+
+.remove{
+  border:0;
+  background:none;
+  color:#b00020;
+  cursor:pointer;
+}
+
+.payment-box{
+  margin-top:20px;
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fafafa;
+}
+
+@media(max-width:650px){
+  .links{display:none}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .pic{height:115px}
+  .hero{margin:10px 0;border-radius:18px;padding:55px 18px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="top">
+🌍 LINAH HOUSE • Worldwide Shopping • Quality Products, Beautifully Selected
+</div>
+
+<header>
+<div class="nav">
+
+<div class="logo">
+LINAH <span>HOUSE</span>
+</div>
+
+<div class="links" id="nav"></div>
+
+<button class="cart" onclick="openCart()">
+🛒 Cart (<span id="count">0</span>)
+</button>
+
+</div>
+</header>
+
+<section class="hero">
+
+<small>WELCOME TO LINAH HOUSE</small>
+
+<h1>
+Everything you love,<br>
+beautifully selected.
+</h1>
+
+<p>
+Beauty, fashion, hair, African food, kitchen, electronics,
+bags and everyday essentials — for customers around the world.
+</p>
+
+<button class="primary"
+onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+SHOP NOW
+</button>
+
+</section>
+
+<main class="wrap" id="shop">
+
+<div class="toolbar">
+
+<input
+class="search"
+id="search"
+placeholder="Search products..."
+oninput="render()">
+
+<select id="sort" onchange="render()">
+<option value="">Sort products</option>
+<option value="low">Price: low to high</option>
+<option value="high">Price: high to low</option>
+</select>
+
+</div>
+
+<div class="categories" id="cats"></div>
+
+<div class="note">
+🌍 LINAH HOUSE welcomes customers worldwide.
+Shipping availability and delivery costs can be confirmed for your country before ordering.
+</div>
+
+<div class="grid" id="products"></div>
+
+</main>
+
+<footer>
+
+<div class="foot">
+
+<div>
+<h3>LINAH HOUSE</h3>
+<p>
+Beauty, fashion, family and everyday essentials.
+</p>
+<p>
+🌍 Worldwide shopping
+</p>
+</div>
+
+<div>
+<h3>Customer Service</h3>
+<p>
+Email support will be added here.
+</p>
+<p>
+Business WhatsApp can be added later.
+</p>
+</div>
+
+<div>
+<h3>Follow LINAH HOUSE</h3>
+
+<div class="social">
+<a href="#">Facebook</a>
+<a href="#">Instagram</a>
+<a href="#">TikTok</a>
+<a href="#">YouTube</a>
+</div>
+
+</div>
+
+</div>
+
+</footer>
+
+<aside class="drawer" id="drawer">
+
+<button class="close" onclick="closeCart()">×</button>
+
+<h2>🛒 Your Cart</h2>
+
+<div id="items"></div>
+
+<h3>
+Total: €<span id="total">0.00</span>
+</h3>
+
+<div class="payment-box">
+
+<strong>Payment</strong>
+
+<p>
+Card payment and other secure payment options will be connected when your business payment account is ready.
+</p>
+
+<p>
+💳 Card payment — coming soon
+</p>
+
+<p>
+Wise — can be added later
+</p>
+
+</div>
+
+<button
+class="primary"
+style="width:100%;margin-top:12px"
+onclick="alert('Thank you for shopping with LINAH HOUSE. Payment checkout will be connected before accepting online payments.')">
+
+Proceed to checkout
+
+</button>
+
+</aside>
+
+<script>
+
+const cats = [
+"Beauty & Care",
+"Hair & Wigs",
+"Women",
+"Men",
+"Kids & Baby",
+"African Food",
+"Kitchen",
+"Electronics",
+"Bags",
+"Vitamins & Supplements",
+"Jewelry & Accessories",
+"Shoes",
+"Perfumes",
+"Eyelashes"
+];
+
+const icons = [
+"💄","💇","👗","👔","👶","🍲","🍳",
+"📱","👜","💊","💍","👟","🌸","👁️"
+];
+
+const products = [
+
+["Beauty & Care","Face & Body Care","🧴",15],
+["Beauty & Care","Body Oil","✨",12],
+
+["Hair & Wigs","Human Hair Wig","💇",120],
+["Hair & Wigs","Braiding Hair","🪮",18],
+
+["Women","Women Dress","👗",35],
+["Women","Women's Top","👚",22],
+
+["Men","Men's Shirt","👔",28],
+
+["Kids & Baby","Kids Clothing","🧸",20],
+["Kids & Baby","Baby Shoes","👟",18],
+
+["African Food","Egusi","🌰",12],
+["African Food","Palm Oil","🫙",15],
+["African Food","African Food Bundle","📦",45],
+
+["Kitchen","Cooking Pot","🍲",35],
+["Kitchen","Kitchen Knife Set","🔪",20],
+["Kitchen","Blender","🥤",45],
+["Kitchen","Plates Set","🍽️",25],
+["Kitchen","Spoons Set","🥄",10],
+
+["Electronics","Phone Case","📱",10],
+["Electronics","Earphones","🎧",15],
+["Electronics","Phone Charger","🔌",12],
+["Electronics","Kids Tablet","📱",65],
+["Electronics","Smartphone","📱",150],
+
+["Bags","Women's Handbag","👜",35],
+["Bags","Crossbody Bag","👜",25],
+["Bags","Kids Backpack","🎒",22],
+
+["Vitamins & Supplements","Multivitamin Gummies","🍓",20],
+["Vitamins & Supplements","Vitamin D","☀️",12],
+
+["Jewelry & Accessories","Fashion Necklace","📿",15],
+["Jewelry & Accessories","Earrings","💎",12],
+
+["Shoes","Women's Shoes","👠",35],
+["Shoes","Men's Sneakers","👟",45],
+["Shoes","Kids Shoes","👟",25],
+
+["Perfumes","Women's Perfume","🌸",30],
+["Perfumes","Men's Perfume","🌿",30],
+
+["Eyelashes","Strip Eyelashes","👁️",8],
+["Eyelashes","Lash Set","👁️",15]
+
+];
+
+let active = "All";
+let cart = [];
+
+
+cats.forEach((c,i)=>{
+
+document.getElementById("nav").innerHTML +=
+`<button onclick="active='${c}';render()">
+${icons[i]} ${c}
+</button>`;
+
+});
+
+
+document.getElementById("cats").innerHTML =
+`
+<button class="cat" onclick="active='All';render()">
+<b>🛍️ All Products</b><br>
+Shop everything
+</button>
+`
++
+cats.map((c,i)=>
+`
+<button class="cat" onclick="active='${c}';render()">
+<b>${icons[i]} ${c}</b><br>
+Shop now →
+</button>
+`
+).join("");
+
+
+function render(){
+
+let q =
+document.getElementById("search").value.toLowerCase();
+
+let a =
+products.filter(p=>
+(active==="All" || p[0]===active)
+&&
+(!q ||
+p[0].toLowerCase().includes(q) ||
+p[1].toLowerCase().includes(q))
+);
+
+let s =
+document.getElementById("sort").value;
+
+if(s==="low")
+a.sort((x,y)=>x[3]-y[3]);
+
+if(s==="high")
+a.sort((x,y)=>y[3]-x[3]);
+
+
+document.getElementById("products").innerHTML =
+a.map(p=>
+
+`
+<article class="card">
+
+<div class="pic">
+${p[2]}
+</div>
+
+<div class="info">
+
+<small>${p[0]}</small>
+
+<h3>${p[1]}</h3>
+
+<div class="price">
+€${p[3].toFixed(2)}
+</div>
+
+<button
+class="add"
+onclick="add(${products.indexOf(p)})">
+
+Add to cart
+
+</button>
+
+</div>
+
+</article>
+`
+
+).join("")
+||
+"<p>No products found.</p>";
+
+}
+
+
+function add(i){
+
+cart.push(products[i]);
+
+update();
+
+openCart();
+
+}
+
+
+function update(){
+
+document.getElementById("count").textContent =
+cart.length;
+
+
+document.getElementById("items").innerHTML =
+
+cart.length
+
+?
+
+cart.map((p,i)=>
+
+`
+<div class="item">
+
+<span>
+${p[2]} ${p[1]}
+</span>
+
+<b>
+€${p[3].toFixed(2)}
+
+<button
+class="remove"
+onclick="cart.splice(${i},1);update()">
+
+Remove
+
+</button>
+
+</b>
+
+</div>
+`
+
+).join("")
+
+:
+
+"<p>Your cart is empty.</p>";
+
+
+let total =
+cart.reduce((x,p)=>x+p[3],0);
+
+document.getElementById("total").textContent =
+total.toFixed(2);
+
+}
+
+
+function openCart(){
+
+document
+.getElementById("drawer")
+.classList.add("open");
+
+}
+
+
+function closeCart(){
+
+document
+.getElementById("drawer")
+.classList.remove("open");
+
+}
+
+
+render();
+
+update();
+
+</script>
+
+</body>
+  </html>
